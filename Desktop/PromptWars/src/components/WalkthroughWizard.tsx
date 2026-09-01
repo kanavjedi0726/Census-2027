@@ -450,7 +450,7 @@ export const WalkthroughWizard: React.FC = () => {
                           <span className={`w-4 h-4 rounded flex items-center justify-center text-[10px] ${
                             isChecked ? 'bg-[#B83A24] text-white' : 'border border-[#DCD2C0]'
                           }`}>
-                            {isChecked && '?'}
+                            {isChecked && '✓'}
                           </span>
                         </button>
                       );
@@ -501,7 +501,7 @@ export const WalkthroughWizard: React.FC = () => {
                       className="w-full px-3 py-2 bg-[#F2ECE1] border border-[#DCD2C0] rounded-md text-xs font-mono font-bold text-stone-700 cursor-not-allowed"
                     />
                     <span className="text-[11px] text-stone-500 mt-1 block">
-                      ?? Individual records are configured in Step 4.
+                      Individual records are configured in Step 4.
                     </span>
                   </div>
                 </div>
