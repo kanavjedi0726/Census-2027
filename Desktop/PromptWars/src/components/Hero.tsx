@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { ShieldCheck, Smartphone, QrCode, ArrowRight, Calendar, Lock } from 'lucide-react';
 
@@ -6,8 +6,44 @@ interface HeroProps {
   onNavigate: (sectionId: string) => void;
 }
 
+const useCountUp = (target: number, duration = 1200) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start: number | null = null;
+    let animId: number;
+
+    const easeOutExpo = (x: number): number => {
+      return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    };
+
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      setCount(Math.floor(easeOutExpo(progress) * target));
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      } else {
+        setCount(target);
+      }
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [target, duration]);
+
+  return count;
+};
+
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
+
+  const countPhases = useCountUp(2, 800);
+  const countPopulation = useCountUp(140, 1400);
+  const countHLO = useCountUp(31, 1100);
+  const countPE = useCountUp(28, 1100);
+  const countLanguages = useCountUp(16, 1200);
 
   return (
     <section id="hero" className="relative overflow-hidden bg-[#FAF7F2] border-b border-[#E5DFD5] py-14 md:py-20">
@@ -96,19 +132,19 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         {/* Gazette Style Stats Ribbon */}
         <div className="mt-12 bg-[#162A45] text-white rounded-lg p-6 md:p-8 shadow-sm max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center border border-[#233854]">
           <div className="space-y-1">
-            <p className="font-mono text-2xl md:text-3xl font-bold text-[#E6C280]">{t.hero.stat1}</p>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-[#E6C280]">{countPhases} Phases</p>
             <p className="text-xs text-stone-300 font-normal">{t.hero.stat1Sub}</p>
           </div>
           <div className="space-y-1 border-l border-[#233854] pl-4 md:pl-0">
-            <p className="font-mono text-2xl md:text-3xl font-bold text-[#FAF7F2]">{t.hero.stat2}</p>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-[#FAF7F2]">{countPopulation}+ Cr</p>
             <p className="text-xs text-stone-300 font-normal">{t.hero.stat2Sub}</p>
           </div>
           <div className="space-y-1 border-t md:border-t-0 md:border-l border-[#233854] pt-4 md:pt-0">
-            <p className="font-mono text-2xl md:text-3xl font-bold text-[#E6C280]">{t.hero.stat3}</p>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-[#E6C280]">{countHLO} + {countPE}</p>
             <p className="text-xs text-stone-300 font-normal">{t.hero.stat3Sub}</p>
           </div>
           <div className="space-y-1 border-t md:border-t-0 border-l border-[#233854] pt-4 md:pt-0 pl-4 md:pl-0">
-            <p className="font-mono text-2xl md:text-3xl font-bold text-[#FAF7F2]">{t.hero.stat4}</p>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-[#FAF7F2]">{countLanguages} Languages</p>
             <p className="text-xs text-stone-300 font-normal">{t.hero.stat4Sub}</p>
           </div>
         </div>

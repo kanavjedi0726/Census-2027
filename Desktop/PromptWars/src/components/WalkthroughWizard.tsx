@@ -71,6 +71,7 @@ const initialFormData: SimulationFormData = {
 export const WalkthroughWizard: React.FC = () => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [formData, setFormData] = useState<SimulationFormData>(initialFormData);
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [enteredOtp, setEnteredOtp] = useState<string>('123456');
@@ -88,6 +89,7 @@ export const WalkthroughWizard: React.FC = () => {
   ];
 
   const handleNext = () => {
+    setDirection('forward');
     if (currentStep === 1 && !formData.otpVerified) {
       setFormData(prev => ({ ...prev, otpVerified: true }));
     }
@@ -98,8 +100,9 @@ export const WalkthroughWizard: React.FC = () => {
   };
 
   const handlePrev = () => {
+    setDirection('backward');
     if (currentStep > 1) {
-      setCurrentStep(prev => prev + 1 - 2);
+      setCurrentStep(prev => prev - 1);
       window.scrollTo({ top: document.getElementById('walkthrough')?.offsetTop || 0, behavior: 'smooth' });
     }
   };
@@ -242,7 +245,7 @@ export const WalkthroughWizard: React.FC = () => {
                     <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
                       isDone ? 'bg-[#233854] text-[#E6C280] font-bold' : isCurrent ? 'bg-white text-[#B83A24] font-bold' : 'bg-[#233854] text-stone-400'
                     }`}>
-                      {isDone ? '?' : stepNum}
+                      {isDone ? '✓' : stepNum}
                     </span>
                     <span className="truncate max-w-[90px]">{title.split('. ')[1] || title}</span>
                   </button>
@@ -252,7 +255,7 @@ export const WalkthroughWizard: React.FC = () => {
           </div>
 
           {/* Step Body */}
-          <div className="p-6 md:p-10 min-h-[420px]">
+          <div key={currentStep} className={`p-6 md:p-10 min-h-[420px] ${direction === 'forward' ? 'wizard-slide-forward' : 'wizard-slide-backward'}`}>
             
             {/* STEP 1: Address & OTP */}
             {currentStep === 1 && (

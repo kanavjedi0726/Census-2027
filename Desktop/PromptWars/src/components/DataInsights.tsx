@@ -79,16 +79,59 @@ export const DataInsights: React.FC = () => {
   const chartWidth = svgWidth - paddingX * 2;
   const chartHeight = svgHeight - paddingY * 2;
 
-  const points = censusHistoricalData.map((d, i) => {
-    const x = paddingX + (i / (censusHistoricalData.length - 1)) * chartWidth;
-    const val = d[currentCfg.key];
-    const normalizedY = (val - currentCfg.min) / (currentCfg.max - currentCfg.min);
-    const y = svgHeight - paddingY - normalizedY * chartHeight;
-    return { x, y, val, year: d.year };
-  });
+  // Compute target points based on selected metric
+  const targetPoints = React.useMemo(() => {
+    return censusHistoricalData.map((d, i) => {
+      const x = paddingX + (i / (censusHistoricalData.length - 1)) * chartWidth;
+      const val = d[currentCfg.key];
+      const normalizedY = (val - currentCfg.min) / (currentCfg.max - currentCfg.min);
+      const y = svgHeight - paddingY - normalizedY * chartHeight;
+      return { x, y, val, year: d.year };
+    });
+  }, [selectedMetric, currentCfg]);
+
+  const [points, setPoints] = useState(targetPoints);
+
+  React.useEffect(() => {
+    const startPoints = points.length > 0 ? points : targetPoints;
+    const duration = 400; // ms
+    const startTime = performance.now();
+    let animId: number;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+
+      const interpolated = targetPoints.map((target, idx) => {
+        const start = startPoints[idx] || target;
+        const currentY = start.y + (target.y - start.y) * eased;
+        const currentVal = Number((start.val + (target.val - start.val) * eased).toFixed(1));
+        return {
+          x: target.x,
+          y: currentY,
+          val: progress === 1 ? target.val : currentVal,
+          year: target.year
+        };
+      });
+
+      setPoints(interpolated);
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      }
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [selectedMetric, targetPoints]);
 
   const pathD = points.reduce((acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`, '');
-  const areaD = `${pathD} L ${points[points.length - 1].x} ${svgHeight - paddingY} L ${points[0].x} ${svgHeight - paddingY} Z`;
+  const areaD = points.length > 0 
+    ? `${pathD} L ${points[points.length - 1].x} ${svgHeight - paddingY} L ${points[0].x} ${svgHeight - paddingY} Z`
+    : '';
 
   return (
     <section id="insights" className="py-16 md:py-20 bg-[#FAF7F2] border-b border-[#E5DFD5]">

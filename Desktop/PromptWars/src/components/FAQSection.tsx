@@ -59,18 +59,20 @@ export const FAQSection: React.FC = () => {
                     </span>
                     <span>{faq.q}</span>
                   </span>
-                  {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-[#B83A24] shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-stone-400 shrink-0" />
-                  )}
+                  <ChevronDown className={`w-5 h-5 transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180 text-[#B83A24]' : 'text-stone-400'}`} />
                 </button>
 
-                {isOpen && (
-                  <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-[#E5DFD5] bg-[#FAF7F2]">
-                    <p>{faq.a}</p>
+                <div 
+                  className={`grid transition-all duration-300 ease-out ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-[#E5DFD5] bg-[#FAF7F2]">
+                      <p>{faq.a}</p>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
