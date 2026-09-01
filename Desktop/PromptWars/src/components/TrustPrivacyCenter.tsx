@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { censusMythsData, privacyMatrixData } from '../data/mythsData';
 import { ShieldAlert, Lock, CheckCircle2, XCircle, AlertTriangle, Scale } from 'lucide-react';
+import { AskAI } from './AskAI';
 
 export const TrustPrivacyCenter: React.FC = () => {
   const { t } = useLanguage();
@@ -164,6 +165,9 @@ export const TrustPrivacyCenter: React.FC = () => {
               );
             })}
           </div>
+
+          {/* Ask AI Component */}
+          <AskAI />
         </div>
 
       </div>
