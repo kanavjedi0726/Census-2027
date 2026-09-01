@@ -30,54 +30,52 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
   const currentLang = supportedLanguages.find(l => l.code === language) || supportedLanguages[0];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-      <div className="h-1.5 w-full grid grid-cols-3">
-        <div className="bg-amber-600"></div>
-        <div className="bg-white"></div>
-        <div className="bg-emerald-600"></div>
-      </div>
-
-      <div className="bg-slate-900 text-slate-300 text-xs px-4 py-1.5 flex items-center justify-between border-b border-slate-800">
+    <header className="sticky top-0 z-50 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#E5DFD5] shadow-xs">
+      {/* Official Gov Header */}
+      <div className="bg-[#162A45] text-stone-300 text-xs px-4 py-1.5 flex items-center justify-between border-b border-[#0F1E32]">
         <div className="flex items-center gap-2 max-w-7xl mx-auto w-full">
-          <span className="inline-flex items-center gap-1.5 text-amber-400 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="inline-flex items-center gap-1.5 text-[#E6C280] font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#26533A]"></span>
             Government of India &bull; Ministry of Home Affairs
           </span>
-          <span className="hidden md:inline text-slate-400">|</span>
-          <span className="hidden md:inline text-slate-300">Office of the Registrar General & Census Commissioner, India</span>
-          <span className="ml-auto bg-slate-800 text-amber-300 px-2 py-0.5 rounded text-[11px] font-semibold tracking-wide">
-            CENSUS 2027 SIMULATION
+          <span className="hidden md:inline text-stone-500">|</span>
+          <span className="hidden md:inline text-stone-300 text-[11px]">Office of the Registrar General & Census Commissioner, India</span>
+          <span className="ml-auto bg-[#233854] text-[#E6C280] px-2.5 py-0.5 rounded text-[11px] font-medium tracking-normal border border-[#354D6E]">
+            Census 2027 Simulation
           </span>
         </div>
       </div>
 
+      {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
+          {/* Brand Emblem */}
           <div 
             onClick={() => handleItemClick('hero')} 
             className="flex items-center gap-3 cursor-pointer group select-none"
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 via-orange-500 to-amber-700 p-0.5 shadow-md flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex flex-col items-center justify-center">
-                <span className="text-orange-400 text-xs font-black tracking-tighter">2027</span>
-                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">INDIA</span>
+            <div className="w-11 h-11 rounded-lg bg-[#162A45] border border-[#233854] flex items-center justify-center text-white shadow-xs group-hover:bg-[#B83A24] transition-colors">
+              <div className="flex flex-col items-center justify-center leading-none">
+                <span className="text-[#E6C280] text-[11px] font-mono font-bold">2027</span>
+                <span className="text-[9px] text-stone-300 tracking-wider mt-0.5">INDIA</span>
               </div>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-lg md:text-xl text-slate-900 tracking-tight">
+                <span className="font-serif font-bold text-lg md:text-xl text-[#162A45] tracking-tight group-hover:text-[#B83A24] transition-colors">
                   {t.nav.brand}
                 </span>
-                <span className="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-orange-200 hidden sm:inline-block">
-                  Digital 1.0
+                <span className="bg-[#F2ECE1] text-[#7A2818] text-[11px] font-medium px-2 py-0.5 rounded border border-[#E0D5C1] hidden sm:inline-block">
+                  Official Guide
                 </span>
               </div>
-              <p className="text-xs text-slate-500 hidden sm:block font-normal">
+              <p className="text-xs text-stone-500 hidden sm:block font-normal">
                 {t.nav.subBrand}
               </p>
             </div>
           </div>
 
+          {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -86,38 +84,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                 <button
                   key={item.id}
                   onClick={() => handleItemClick(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all cursor-pointer ${
                     isActive 
-                      ? 'text-orange-600 bg-orange-50 font-semibold' 
-                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'text-[#B83A24] bg-[#F7EFE9] font-semibold border-b-2 border-[#B83A24]' 
+                      : 'text-stone-700 hover:text-[#162A45] hover:bg-[#F2ECE1]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-orange-600' : 'text-slate-400'}`} />
-                  {item.label}
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#B83A24]' : 'text-stone-400'}`} />
+                  <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
 
+          {/* Language Selector & CTA */}
           <div className="flex items-center gap-3">
             <div className="relative">
               <button
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-2 rounded-lg text-xs md:text-sm font-semibold border border-slate-300 transition-colors focus:ring-2 focus:ring-orange-500 focus:outline-hidden cursor-pointer"
+                className="flex items-center gap-2 bg-[#F2ECE1] hover:bg-[#EAE2D4] text-[#162A45] px-3 py-2 rounded-md text-xs md:text-sm font-medium border border-[#DCD2C0] transition-colors focus:ring-2 focus:ring-[#B83A24] focus:outline-hidden cursor-pointer"
                 aria-label="Change Language"
               >
-                <Globe className="w-4 h-4 text-orange-600" />
-                <span className="font-bold">{currentLang.nativeName}</span>
-                <span className="text-xs text-slate-500 uppercase">({currentLang.code})</span>
+                <Globe className="w-4 h-4 text-[#B83A24]" />
+                <span className="font-semibold">{currentLang.nativeName}</span>
+                <span className="text-xs text-stone-500 uppercase">({currentLang.code})</span>
               </button>
 
               {langDropdownOpen && (
                 <div 
-                  className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                  className="absolute right-0 mt-2 w-52 bg-[#FAF7F2] rounded-lg shadow-lg border border-[#DCD2C0] py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                   onMouseLeave={() => setLangDropdownOpen(false)}
                 >
-                  <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
-                    Select Language / भाषा चुनें
+                  <div className="px-3 py-1.5 text-xs font-semibold text-stone-500 border-b border-[#E8E0D2]">
+                    Select Language / ???? ?????
                   </div>
                   {supportedLanguages.map((lang) => (
                     <button
@@ -126,16 +125,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                         setLanguage(lang.code as Language);
                         setLangDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between hover:bg-orange-50 transition-colors cursor-pointer ${
-                        language === lang.code ? 'bg-orange-50/80 text-orange-700 font-bold' : 'text-slate-700'
+                      className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between hover:bg-[#F2ECE1] transition-colors cursor-pointer ${
+                        language === lang.code ? 'bg-[#EFE7D8] text-[#B83A24] font-bold' : 'text-stone-700'
                       }`}
                     >
                       <div className="flex flex-col">
                         <span className="font-medium">{lang.nativeName}</span>
-                        <span className="text-xs text-slate-400">{lang.name}</span>
+                        <span className="text-xs text-stone-400">{lang.name}</span>
                       </div>
                       {language === lang.code && (
-                        <span className="w-2 h-2 rounded-full bg-orange-600"></span>
+                        <span className="w-2 h-2 rounded-full bg-[#B83A24]"></span>
                       )}
                     </button>
                   ))}
@@ -145,15 +144,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
 
             <button
               onClick={() => handleItemClick('walkthrough')}
-              className="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-2 bg-[#B83A24] hover:bg-[#9C2F1C] active:scale-98 text-white text-xs md:text-sm font-semibold px-4 py-2.5 rounded-md shadow-xs transition-all cursor-pointer"
             >
               <span>{t.nav.startBtn}</span>
-              <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded font-mono">5m</span>
+              <span className="text-xs bg-black/15 px-1.5 py-0.5 rounded font-mono">5m</span>
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden cursor-pointer"
+              className="lg:hidden p-2 rounded-md text-stone-700 hover:text-stone-900 hover:bg-[#F2ECE1] focus:outline-hidden cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -163,7 +162,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
       </div>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg">
+        <div className="lg:hidden border-t border-[#E5DFD5] bg-[#FAF7F2] px-4 pt-3 pb-6 space-y-2 shadow-lg">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.id;
@@ -171,19 +170,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm font-medium transition-colors cursor-pointer ${
-                  isActive ? 'bg-orange-50 text-orange-700 font-semibold' : 'text-slate-700 hover:bg-slate-50'
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left text-sm font-medium transition-colors cursor-pointer ${
+                  isActive ? 'bg-[#F2ECE1] text-[#B83A24] font-semibold' : 'text-stone-700 hover:bg-[#F2ECE1]'
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? 'text-orange-600' : 'text-slate-400'}`} />
+                <Icon className={`w-5 h-5 ${isActive ? 'text-[#B83A24]' : 'text-stone-400'}`} />
                 <span>{item.label}</span>
               </button>
             );
           })}
-          <div className="pt-3 border-t border-slate-100">
+          <div className="pt-3 border-t border-[#E5DFD5]">
             <button
               onClick={() => handleItemClick('walkthrough')}
-              className="w-full flex items-center justify-center gap-2 bg-orange-600 text-white py-3 rounded-lg font-semibold text-sm shadow-sm cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 bg-[#B83A24] hover:bg-[#9C2F1C] text-white py-3 rounded-md font-semibold text-sm shadow-xs cursor-pointer"
             >
               {t.nav.startBtn}
             </button>

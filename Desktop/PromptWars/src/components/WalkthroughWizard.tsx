@@ -1,119 +1,97 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import type { SimulationFormData, CensusMember } from '../types';
-import confetti from 'canvas-confetti';
 import { 
-  CheckCircle2, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, 
-  Smartphone, QrCode, Printer, Plus, Trash2, Home, Users, User,
-  Check, Lock, Sparkles, Building, AlertCircle
+  CheckCircle2, ArrowRight, ArrowLeft, RotateCcw, 
+  Printer, QrCode, Plus, Trash2, ShieldCheck, Check, Smartphone
 } from 'lucide-react';
-
-const initialMembers: CensusMember[] = [
-  {
-    id: 'mem-1',
-    fullName: 'Rajesh Sharma',
-    relationship: 'Self (Head)',
-    gender: 'Male',
-    age: '46',
-    maritalStatus: 'Currently Married',
-    religion: 'Hindu',
-    casteCategory: 'General / Others',
-    motherTongue: 'Hindi',
-    otherLanguages: 'English, Punjabi',
-    literacyStatus: 'Literate (Can read and write)',
-    educationLevel: 'Graduate / Diploma',
-    occupation: 'Private Sector Employee',
-    workStatus: 'Main Worker',
-    disability: 'None'
-  },
-  {
-    id: 'mem-2',
-    fullName: 'Sunita Sharma',
-    relationship: 'Spouse',
-    gender: 'Female',
-    age: '42',
-    maritalStatus: 'Currently Married',
-    religion: 'Hindu',
-    casteCategory: 'General / Others',
-    motherTongue: 'Hindi',
-    otherLanguages: 'English',
-    literacyStatus: 'Literate (Can read and write)',
-    educationLevel: 'Post-Graduate & above',
-    occupation: 'Government / Public Sector',
-    workStatus: 'Main Worker',
-    disability: 'None'
-  },
-  {
-    id: 'mem-3',
-    fullName: 'Aarav Sharma',
-    relationship: 'Son',
-    gender: 'Male',
-    age: '16',
-    maritalStatus: 'Never Married',
-    religion: 'Hindu',
-    casteCategory: 'General / Others',
-    motherTongue: 'Hindi',
-    otherLanguages: 'English',
-    literacyStatus: 'Literate (Can read and write)',
-    educationLevel: 'Secondary (10th)',
-    occupation: 'Student',
-    workStatus: 'Non-Worker',
-    disability: 'None'
-  }
-];
+import confetti from 'canvas-confetti';
 
 const initialFormData: SimulationFormData = {
-  state: 'Delhi (NCT)',
-  district: 'New Delhi',
-  subDistrict: 'Chanakyapuri',
-  villageTown: 'New Delhi (Municipal Council)',
-  wardOrBlock: 'Ward No. 14 / Block C',
-  pincode: '110001',
   mobileNumber: '9876543210',
-  otpVerified: true,
-
+  otp: '',
+  otpVerified: false,
+  state: 'Delhi (NCT)',
+  district: 'Central Delhi',
+  subDistrict: 'Civil Lines',
+  pincode: '110054',
   buildingNumber: 'B-42',
-  censusHouseNumber: 'CHN-2027-8891',
+  censusHouseNumber: 'HN-108',
   houseUse: 'Wholly Residential',
   wallMaterial: 'Pucca (Concrete/Brick/Cement)',
-  roofMaterial: 'Reinforced Cement Concrete (RCC)',
-  floorMaterial: 'Mosaic / Ceramic Tiles',
-  ownershipStatus: 'Owned',
-  dwellingRooms: '3 Rooms',
   drinkingWaterSource: 'Piped Tap Water inside Premises',
-  waterAvailability: 'Available within premises 24x7',
-  lightingSource: 'Electricity (Grid connection)',
   latrineFacility: 'Flush / Pour-flush Latrine within premises',
-  drainageSystem: 'Closed Drainage System',
   cookingFuel: 'LPG / PNG Gas',
-  assetsOwned: ['Television', 'Internet Connection / Wi-Fi', 'Laptop / Computer', 'Smartphone', 'Scooter / Motorcycle', 'Car / Jeep / Van'],
-
-  headName: 'Rajesh Sharma',
-  totalMembers: 3,
-  members: initialMembers,
-
-  migrationReason: 'Employment / Business Relocation',
-  lastResidence: 'Jaipur, Rajasthan'
+  assetsOwned: ['Television', 'Internet Connection / Wi-Fi', 'Smartphone', 'Scooter / Motorcycle'],
+  headName: 'Rajesh Kumar Sharma',
+  totalRegularMembers: 3,
+  members: [
+    {
+      id: '1',
+      fullName: 'Rajesh Kumar Sharma',
+      relationship: 'Self (Head)',
+      gender: 'Male',
+      age: 48,
+      maritalStatus: 'Currently Married',
+      motherTongue: 'Hindi',
+      otherLanguages: 'English',
+      literacy: 'Literate',
+      educationLevel: 'Graduate / Diploma',
+      occupation: 'Business / Self-Employed'
+    },
+    {
+      id: '2',
+      fullName: 'Sunita Sharma',
+      relationship: 'Spouse',
+      gender: 'Female',
+      age: 45,
+      maritalStatus: 'Currently Married',
+      motherTongue: 'Hindi',
+      otherLanguages: 'English',
+      literacy: 'Literate',
+      educationLevel: 'Post-Graduate & above',
+      occupation: 'Government / Public Sector'
+    },
+    {
+      id: '3',
+      fullName: 'Aarav Sharma',
+      relationship: 'Son',
+      gender: 'Male',
+      age: 18,
+      maritalStatus: 'Never Married',
+      motherTongue: 'Hindi',
+      otherLanguages: 'English',
+      literacy: 'Literate',
+      educationLevel: 'Higher Secondary (12th)',
+      occupation: 'Student'
+    }
+  ]
 };
 
 export const WalkthroughWizard: React.FC = () => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<SimulationFormData>(initialFormData);
-  const [otpInput, setOtpInput] = useState('123456');
-  const [otpSent, setOtpSent] = useState(true);
-  const [otpError, setOtpError] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [referenceToken, setReferenceToken] = useState('CEN27-DL-88914-729X');
+  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const [enteredOtp, setEnteredOtp] = useState<string>('123456');
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [referenceToken, setReferenceToken] = useState<string>('');
 
-  const totalSteps = 7;
+  const steps = [
+    { num: 1, title: t.wizard.step1 },
+    { num: 2, title: t.wizard.step2 },
+    { num: 3, title: t.wizard.step3 },
+    { num: 4, title: t.wizard.step4 },
+    { num: 5, title: t.wizard.step5 },
+    { num: 6, title: t.wizard.step6 },
+    { num: 7, title: t.wizard.step7 },
+  ];
 
   const handleNext = () => {
     if (currentStep === 1 && !formData.otpVerified) {
-      setOtpError(true);
-      return;
+      setFormData(prev => ({ ...prev, otpVerified: true }));
     }
-    if (currentStep < totalSteps) {
+    if (currentStep < 7) {
       setCurrentStep(prev => prev + 1);
       window.scrollTo({ top: document.getElementById('walkthrough')?.offsetTop || 0, behavior: 'smooth' });
     }
@@ -121,32 +99,30 @@ export const WalkthroughWizard: React.FC = () => {
 
   const handlePrev = () => {
     if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep(prev => prev + 1 - 2);
+      window.scrollTo({ top: document.getElementById('walkthrough')?.offsetTop || 0, behavior: 'smooth' });
     }
   };
 
   const handleVerifyOtp = () => {
-    if (otpInput.trim().length >= 4) {
+    if (enteredOtp.length === 6) {
       setFormData(prev => ({ ...prev, otpVerified: true }));
-      setOtpError(false);
+      setOtpError(null);
     } else {
-      setOtpError(true);
+      setOtpError('Please enter a 6-digit OTP (Try: 123456)');
     }
   };
 
-  const handleAssetToggle = (asset: string) => {
-    setFormData(prev => {
-      const exists = prev.assetsOwned.includes(asset);
-      return {
-        ...prev,
-        assetsOwned: exists 
-          ? prev.assetsOwned.filter(a => a !== asset)
-          : [...prev.assetsOwned, asset]
-      };
-    });
+  const handleToggleAsset = (asset: string) => {
+    setFormData(prev => ({
+      ...prev,
+      assetsOwned: prev.assetsOwned.includes(asset)
+        ? prev.assetsOwned.filter(a => a !== asset)
+        : [...prev.assetsOwned, asset]
+    }));
   };
 
-  const handleMemberChange = (id: string, field: keyof CensusMember, value: string) => {
+  const handleMemberChange = (id: string, field: keyof CensusMember, value: any) => {
     setFormData(prev => ({
       ...prev,
       members: prev.members.map(m => m.id === id ? { ...m, [field]: value } : m)
@@ -154,133 +130,121 @@ export const WalkthroughWizard: React.FC = () => {
   };
 
   const handleAddMember = () => {
-    const newId = `mem-${Date.now()}`;
+    const newId = String(Date.now());
     const newMember: CensusMember = {
       id: newId,
-      fullName: 'New Family Member',
-      relationship: 'Daughter',
-      gender: 'Female',
-      age: '12',
+      fullName: `Member ${formData.members.length + 1}`,
+      relationship: 'Other Relative',
+      gender: 'Male',
+      age: 25,
       maritalStatus: 'Never Married',
-      religion: 'Hindu',
-      casteCategory: 'General / Others',
       motherTongue: 'Hindi',
       otherLanguages: 'English',
-      literacyStatus: 'Literate (Can read and write)',
-      educationLevel: 'Middle (6-8)',
-      occupation: 'Student',
-      workStatus: 'Non-Worker',
-      disability: 'None'
+      literacy: 'Literate',
+      educationLevel: 'Secondary (10th)',
+      occupation: 'Private Sector Employee'
     };
     setFormData(prev => ({
       ...prev,
-      totalMembers: prev.members.length + 1,
       members: [...prev.members, newMember]
     }));
   };
 
   const handleRemoveMember = (id: string) => {
-    if (formData.members.length <= 1) return;
-    setFormData(prev => ({
-      ...prev,
-      totalMembers: prev.members.length - 1,
-      members: prev.members.filter(m => m.id !== id)
-    }));
+    if (formData.members.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        members: prev.members.filter(m => m.id !== id)
+      }));
+    }
   };
 
   const handleSubmit = () => {
-    const generatedToken = `CEN27-${formData.state.substring(0, 2).toUpperCase()}-${Math.floor(10000 + Math.random() * 90000)}-${Math.floor(100 + Math.random() * 900)}Z`;
+    const generatedToken = 'CEN-2027-' + Math.random().toString(36).substring(2, 7).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
     setReferenceToken(generatedToken);
-    setFormData(prev => ({
-      ...prev,
-      referenceToken: generatedToken,
-      simulatedSubmittedAt: new Date().toLocaleString()
-    }));
-    setIsSubmitted(true);
     setCurrentStep(7);
 
-    try {
-      confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
-    } catch {}
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
   };
 
   const handleReset = () => {
     setFormData(initialFormData);
     setCurrentStep(1);
-    setIsSubmitted(false);
+    setOtpSent(false);
+    setReferenceToken('');
   };
 
-  const stepTitles = [
-    t.wizard.step1,
-    t.wizard.step2,
-    t.wizard.step3,
-    t.wizard.step4,
-    t.wizard.step5,
-    t.wizard.step6,
-    t.wizard.step7
-  ];
-return (
-    <section id="walkthrough" className="py-16 md:py-24 bg-white border-b border-slate-200">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+  return (
+    <section id="walkthrough" className="py-16 md:py-20 bg-[#FAF7F2] border-b border-[#E5DFD5]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-orange-600" />
-            Interactive Simulation
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#162A45] tracking-tight">
             {t.wizard.title}
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg">
+          <p className="text-stone-600 text-base sm:text-lg font-normal">
             {t.wizard.subtitle}
           </p>
         </div>
 
         {/* Wizard Container */}
-        <div className="bg-white rounded-3xl border-2 border-slate-200 shadow-xl overflow-hidden">
+        <div className="bg-[#FDFBF7] rounded-lg border border-[#E5DFD5] shadow-xs overflow-hidden">
           
-          {/* Top Progress Bar & Steps Ribbon */}
-          <div className="bg-slate-900 text-white p-6">
-            <div className="flex items-center justify-between text-xs font-semibold mb-3">
-              <span className="text-orange-400 font-mono tracking-wider uppercase">
-                Step {currentStep} of {totalSteps}
-              </span>
-              <span className="text-slate-300">
-                {Math.round((currentStep / totalSteps) * 100)}% Complete
-              </span>
+          {/* STEP PROGRESS BAR HEADER (Preserved Structure) */}
+          <div className="bg-[#162A45] text-white p-4 sm:p-6 border-b border-[#233854]">
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <div>
+                <span className="text-xs text-[#E6C280] font-medium">Interactive Walkthrough</span>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                  Step {currentStep} of 7: {steps[currentStep - 1]?.title}
+                </h3>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-mono font-semibold text-[#E6C280] bg-[#233854] px-3 py-1 rounded border border-[#354D6E]">
+                  {Math.round((currentStep / 7) * 100)}% Complete
+                </span>
+              </div>
             </div>
 
-            <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+            {/* Progress Segmented Bar */}
+            <div className="w-full bg-[#233854] h-2 rounded-full overflow-hidden flex">
               <div 
-                className="bg-gradient-to-r from-orange-500 to-amber-400 h-full transition-all duration-300 rounded-full"
-                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                className="bg-[#B83A24] h-full transition-all duration-300 rounded-full"
+                style={{ width: `${(currentStep / 7) * 100}%` }}
               ></div>
             </div>
 
-            <div className="hidden sm:flex items-center justify-between mt-5 pt-3 border-t border-slate-800 gap-1 overflow-x-auto text-[11px]">
-              {stepTitles.map((title, idx) => {
-                const stepNum = idx + 1;
+            {/* Step Pills on Desktop */}
+            <div className="hidden md:flex items-center justify-between gap-1 mt-4 pt-3 border-t border-[#233854] text-xs">
+              {steps.map((step) => {
+                const stepNum = step.num;
+                const title = step.title;
                 const isCurrent = currentStep === stepNum;
                 const isDone = currentStep > stepNum;
                 return (
                   <button
-                    key={idx}
-                    onClick={() => setCurrentStep(stepNum)}
-                    className={`flex items-center gap-1.5 px-2 py-1 rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                    key={stepNum}
+                    onClick={() => stepNum <= currentStep && setCurrentStep(stepNum)}
+                    disabled={stepNum > currentStep}
+                    className={`flex items-center gap-1.5 py-1 px-2 rounded transition-all ${
                       isCurrent 
-                        ? 'bg-orange-600 text-white font-bold' 
+                        ? 'bg-[#B83A24] text-white font-semibold' 
                         : isDone 
-                          ? 'text-emerald-400 font-medium' 
-                          : 'text-slate-400 hover:text-slate-200'
+                          ? 'text-[#E6C280] hover:text-white cursor-pointer' 
+                          : 'text-stone-400'
                     }`}
                   >
                     <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
-                      isDone ? 'bg-emerald-500/20 text-emerald-400 font-bold' : isCurrent ? 'bg-white text-orange-600 font-bold' : 'bg-slate-800 text-slate-400'
+                      isDone ? 'bg-[#233854] text-[#E6C280] font-bold' : isCurrent ? 'bg-white text-[#B83A24] font-bold' : 'bg-[#233854] text-stone-400'
                     }`}>
-                      {isDone ? '✓' : stepNum}
+                      {isDone ? '?' : stepNum}
                     </span>
-                    <span>{title.split('. ')[1] || title}</span>
+                    <span className="truncate max-w-[90px]">{title.split('. ')[1] || title}</span>
                   </button>
                 );
               })}
@@ -288,127 +252,125 @@ return (
           </div>
 
           {/* Step Body */}
-          <div className="p-6 md:p-10 space-y-6">
+          <div className="p-6 md:p-10 min-h-[420px]">
             
             {/* STEP 1: Address & OTP */}
             {currentStep === 1 && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{t.wizard.step1Title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">{t.wizard.step1Desc}</p>
+                  <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step1Title}</h3>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">{t.wizard.step1Desc}</p>
                 </div>
 
-                <div className="bg-orange-50/70 border border-orange-200 rounded-2xl p-5 space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#FAF7F2] p-5 rounded-md border border-[#E5DFD5]">
+                  <div className="space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
                         {t.wizard.mobileLabel}
                       </label>
                       <div className="relative">
-                        <Smartphone className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <Smartphone className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
                         <input
                           type="tel"
                           value={formData.mobileNumber}
                           onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-orange-500 focus:outline-hidden"
-                          placeholder="10-digit mobile number"
+                          className="w-full pl-9 pr-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-sm font-mono text-[#162A45]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
                         {t.wizard.enterOtp}
                       </label>
                       <div className="flex gap-2">
                         <input
                           type="text"
-                          value={otpInput}
-                          onChange={(e) => setOtpInput(e.target.value)}
-                          className="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-mono text-center tracking-widest font-bold focus:ring-2 focus:ring-orange-500 focus:outline-hidden"
+                          maxLength={6}
+                          value={enteredOtp}
+                          onChange={(e) => setEnteredOtp(e.target.value)}
                           placeholder="123456"
+                          className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-sm font-mono font-bold tracking-widest text-[#162A45]"
                         />
                         <button
                           type="button"
                           onClick={handleVerifyOtp}
-                          className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shrink-0 cursor-pointer"
+                          className="px-4 py-2 bg-[#162A45] hover:bg-[#233854] text-white text-xs font-semibold rounded-md transition-colors shrink-0 cursor-pointer"
                         >
                           {t.wizard.verifyOtp}
                         </button>
                       </div>
+                      {formData.otpVerified ? (
+                        <p className="text-xs text-[#1E432E] font-medium mt-1.5 flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#26533A]" />
+                          <span>{t.wizard.otpSuccess}</span>
+                        </p>
+                      ) : otpError ? (
+                        <p className="text-xs text-[#B83A24] font-medium mt-1.5">{otpError}</p>
+                      ) : null}
                     </div>
                   </div>
 
-                  {formData.otpVerified ? (
-                    <div className="flex items-center gap-2 text-xs font-semibold text-emerald-800 bg-emerald-100/80 px-3 py-2 rounded-lg border border-emerald-300">
-                      <Check className="w-4 h-4 text-emerald-600" />
-                      <span>{t.wizard.otpSuccess}</span>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
+                          {t.wizard.stateLabel}
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.state}
+                          onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
+                          {t.wizard.districtLabel}
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.district}
+                          onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                          className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
+                        />
+                      </div>
                     </div>
-                  ) : otpError ? (
-                    <div className="flex items-center gap-2 text-xs font-semibold text-rose-800 bg-rose-50 px-3 py-2 rounded-lg border border-rose-200">
-                      <AlertCircle className="w-4 h-4 text-rose-600" />
-                      <span>Please enter 6-digit OTP (use default 123456).</span>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
+                        {t.wizard.pincodeLabel}
+                      </label>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        value={formData.pincode}
+                        onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                        className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-mono font-bold text-[#162A45]"
+                      />
                     </div>
-                  ) : null}
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                      {t.wizard.stateLabel}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.state}
-                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                      {t.wizard.districtLabel}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.district}
-                      onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                      {t.wizard.pincodeLabel}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.pincode}
-                      onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-medium font-mono"
-                    />
                   </div>
                 </div>
               </div>
             )}
 
-            {/* STEP 2: Housing & Living Amenities (Phase 1 Simulation) */}
+            {/* STEP 2: Housing & Assets */}
             {currentStep === 2 && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{t.wizard.step2Title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">{t.wizard.step2Desc}</p>
+                  <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step2Title}</h3>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">{t.wizard.step2Desc}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
                       {t.wizard.houseUseLabel}
                     </label>
                     <select
                       value={formData.houseUse}
                       onChange={(e) => setFormData({ ...formData, houseUse: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
+                      className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs sm:text-sm text-[#162A45]"
                     >
                       {t.wizard.houseUseOptions.map((opt: string) => (
                         <option key={opt} value={opt}>{opt}</option>
@@ -417,13 +379,13 @@ return (
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
                       {t.wizard.wallMaterialLabel}
                     </label>
                     <select
                       value={formData.wallMaterial}
                       onChange={(e) => setFormData({ ...formData, wallMaterial: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
+                      className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs sm:text-sm text-[#162A45]"
                     >
                       {t.wizard.wallOptions.map((opt: string) => (
                         <option key={opt} value={opt}>{opt}</option>
@@ -432,13 +394,13 @@ return (
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
                       {t.wizard.waterSourceLabel}
                     </label>
                     <select
                       value={formData.drinkingWaterSource}
                       onChange={(e) => setFormData({ ...formData, drinkingWaterSource: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
+                      className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs sm:text-sm text-[#162A45]"
                     >
                       {t.wizard.waterOptions.map((opt: string) => (
                         <option key={opt} value={opt}>{opt}</option>
@@ -447,53 +409,24 @@ return (
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      {t.wizard.latrineLabel}
-                    </label>
-                    <select
-                      value={formData.latrineFacility}
-                      onChange={(e) => setFormData({ ...formData, latrineFacility: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
-                    >
-                      {t.wizard.latrineOptions.map((opt: string) => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1.5">
                       {t.wizard.cookingFuelLabel}
                     </label>
                     <select
                       value={formData.cookingFuel}
                       onChange={(e) => setFormData({ ...formData, cookingFuel: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
+                      className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs sm:text-sm text-[#162A45]"
                     >
                       {t.wizard.cookingOptions.map((opt: string) => (
                         <option key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
                   </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      Dwelling Rooms
-                    </label>
-                    <select
-                      value={formData.dwellingRooms}
-                      onChange={(e) => setFormData({ ...formData, dwellingRooms: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium"
-                    >
-                      {['1 Room', '2 Rooms', '3 Rooms', '4 Rooms', '5+ Rooms'].map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                  </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-200">
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-3">
+                {/* Assets Multi-Select */}
+                <div className="pt-2">
+                  <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-2">
                     {t.wizard.assetsLabel}
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -501,20 +434,20 @@ return (
                       const isChecked = formData.assetsOwned.includes(asset);
                       return (
                         <button
-                          type="button"
                           key={asset}
-                          onClick={() => handleAssetToggle(asset)}
-                          className={`p-3 rounded-xl border text-xs font-medium text-left flex items-center justify-between transition-all cursor-pointer ${
+                          type="button"
+                          onClick={() => handleToggleAsset(asset)}
+                          className={`p-2.5 rounded-md border text-left text-xs font-medium transition-all flex items-center justify-between cursor-pointer ${
                             isChecked
-                              ? 'bg-orange-50 border-orange-400 text-orange-950 font-bold shadow-xs'
-                              : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                              ? 'bg-[#F7EFE9] border-[#B83A24] text-[#7A2818] font-semibold'
+                              : 'bg-[#FAF7F2] border-[#E5DFD5] text-stone-700 hover:bg-[#F2ECE1]'
                           }`}
                         >
                           <span>{asset}</span>
-                          <span className={`w-4 h-4 rounded-md flex items-center justify-center text-[10px] ${
-                            isChecked ? 'bg-orange-600 text-white' : 'border border-slate-300'
+                          <span className={`w-4 h-4 rounded flex items-center justify-center text-[10px] ${
+                            isChecked ? 'bg-[#B83A24] text-white' : 'border border-[#DCD2C0]'
                           }`}>
-                            {isChecked && '✓'}
+                            {isChecked && '?'}
                           </span>
                         </button>
                       );
@@ -524,54 +457,49 @@ return (
               </div>
             )}
 
-            {/* STEP 3: Household Head */}
+            {/* STEP 3: Head of Household */}
             {currentStep === 3 && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{t.wizard.step3Title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">{t.wizard.step3Desc}</p>
+                  <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step3Title}</h3>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">{t.wizard.step3Desc}</p>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
+                <div className="bg-[#FAF7F2] p-6 rounded-md border border-[#E5DFD5] space-y-4 max-w-xl mx-auto">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
                       {t.wizard.headNameLabel}
                     </label>
-                    <div className="relative">
-                      <User className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="text"
-                        value={formData.headName}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setFormData(prev => ({
-                            ...prev,
-                            headName: val,
-                            members: prev.members.map((m, i) => i === 0 ? { ...m, fullName: val } : m)
-                          }));
-                        }}
-                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-base font-bold text-slate-900 focus:ring-2 focus:ring-orange-500 focus:outline-hidden"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      value={formData.headName}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData(prev => ({
+                          ...prev,
+                          headName: val,
+                          members: prev.members.map((m, i) => i === 0 ? { ...m, fullName: val } : m)
+                        }));
+                      }}
+                      className="w-full px-3 py-2.5 bg-white border border-[#DCD2C0] rounded-md text-sm font-semibold text-[#162A45]"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wide mb-1">
                       {t.wizard.totalMembersLabel}
                     </label>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="number"
-                        min="1"
-                        max="20"
-                        value={formData.totalMembers}
-                        onChange={(e) => setFormData({ ...formData, totalMembers: parseInt(e.target.value) || 1 })}
-                        className="w-32 px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-base font-bold font-mono text-center"
-                      />
-                      <span className="text-xs text-slate-500">
-                        Regular residents normally living in household.
-                      </span>
-                    </div>
+                    <input
+                      type="number"
+                      min={1}
+                      max={20}
+                      value={formData.members.length}
+                      readOnly
+                      className="w-full px-3 py-2 bg-[#F2ECE1] border border-[#DCD2C0] rounded-md text-xs font-mono font-bold text-stone-700 cursor-not-allowed"
+                    />
+                    <span className="text-[11px] text-stone-500 mt-1 block">
+                      ?? Individual records are configured in Step 4.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -581,15 +509,15 @@ return (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900">{t.wizard.step4Title}</h3>
-                    <p className="text-xs sm:text-sm text-slate-500 mt-1">{t.wizard.step4Desc}</p>
+                    <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step4Title}</h3>
+                    <p className="text-xs sm:text-sm text-stone-600 mt-1">{t.wizard.step4Desc}</p>
                   </div>
                   <button
                     type="button"
                     onClick={handleAddMember}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-orange-600 text-white text-xs font-bold shadow-xs hover:bg-orange-700 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md bg-[#B83A24] text-white text-xs font-semibold hover:bg-[#9C2F1C] transition-colors cursor-pointer"
                   >
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-3.5 h-3.5" />
                     <span>{t.wizard.addMember}</span>
                   </button>
                 </div>
@@ -598,15 +526,15 @@ return (
                   {formData.members.map((member, index) => (
                     <div 
                       key={member.id}
-                      className="p-5 rounded-2xl border border-slate-200 bg-slate-50/60 space-y-4 relative"
+                      className="p-5 rounded-md border border-[#E5DFD5] bg-[#FAF7F2] space-y-4 relative"
                     >
-                      <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+                      <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD5]">
                         <div className="flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-full bg-slate-900 text-white text-xs font-bold flex items-center justify-center font-mono">
+                          <span className="w-5 h-5 rounded bg-[#162A45] text-white text-xs font-bold flex items-center justify-center font-mono">
                             {index + 1}
                           </span>
-                          <span className="font-bold text-slate-900 text-sm">{member.fullName}</span>
-                          <span className="text-xs text-orange-700 bg-orange-100 px-2 py-0.5 rounded-md font-semibold">
+                          <span className="font-bold text-[#162A45] text-sm">{member.fullName}</span>
+                          <span className="text-xs text-[#7A2818] bg-[#F7EFE9] px-2 py-0.5 rounded border border-[#E8D2C5]">
                             {member.relationship}
                           </span>
                         </div>
@@ -614,7 +542,7 @@ return (
                           <button
                             type="button"
                             onClick={() => handleRemoveMember(member.id)}
-                            className="text-slate-400 hover:text-rose-600 p-1 transition-colors cursor-pointer"
+                            className="text-stone-400 hover:text-[#B83A24] p-1 transition-colors cursor-pointer"
                             title="Remove Member"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -624,25 +552,25 @@ return (
 
                       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <div className="sm:col-span-2">
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.memberName}
                           </label>
                           <input
                             type="text"
                             value={member.fullName}
                             onChange={(e) => handleMemberChange(member.id, 'fullName', e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.relationToHead}
                           </label>
                           <select
                             value={member.relationship}
                             onChange={(e) => handleMemberChange(member.id, 'relationship', e.target.value)}
-                            className="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-2 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           >
                             {t.wizard.relationOptions.map((rel: string) => (
                               <option key={rel} value={rel}>{rel}</option>
@@ -651,13 +579,13 @@ return (
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.gender}
                           </label>
                           <select
                             value={member.gender}
                             onChange={(e) => handleMemberChange(member.id, 'gender', e.target.value)}
-                            className="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-2 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           >
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -666,25 +594,25 @@ return (
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.age}
                           </label>
                           <input
                             type="number"
                             value={member.age}
                             onChange={(e) => handleMemberChange(member.id, 'age', e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-mono font-bold"
+                            className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-mono font-bold text-[#162A45]"
                           />
                         </div>
 
                         <div className="sm:col-span-3">
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.maritalStatus}
                           </label>
                           <select
                             value={member.maritalStatus}
                             onChange={(e) => handleMemberChange(member.id, 'maritalStatus', e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-2.5 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           >
                             {t.wizard.maritalOptions.map((opt: string) => (
                               <option key={opt} value={opt}>{opt}</option>
@@ -702,43 +630,43 @@ return (
             {currentStep === 5 && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{t.wizard.step5Title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step5Title}</h3>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">
                     Socio-economic indicators and linguistic parameters for each household member.
                   </p>
                 </div>
 
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {formData.members.map((member, index) => (
-                    <div key={member.id} className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-4">
-                      <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
-                        <span className="w-5 h-5 rounded-full bg-slate-900 text-white text-[11px] font-bold flex items-center justify-center font-mono">
+                    <div key={member.id} className="p-5 rounded-md border border-[#E5DFD5] bg-[#FAF7F2] space-y-4">
+                      <div className="flex items-center gap-2 pb-2 border-b border-[#E5DFD5]">
+                        <span className="w-5 h-5 rounded bg-[#162A45] text-white text-[11px] font-bold flex items-center justify-center font-mono">
                           {index + 1}
                         </span>
-                        <span className="font-bold text-sm text-slate-900">{member.fullName}</span>
+                        <span className="font-bold text-sm text-[#162A45]">{member.fullName}</span>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.motherTongue}
                           </label>
                           <input
                             type="text"
                             value={member.motherTongue}
                             onChange={(e) => handleMemberChange(member.id, 'motherTongue', e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-3 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.highestEducation}
                           </label>
                           <select
                             value={member.educationLevel}
                             onChange={(e) => handleMemberChange(member.id, 'educationLevel', e.target.value)}
-                            className="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-2.5 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           >
                             {t.wizard.educationOptions.map((opt: string) => (
                               <option key={opt} value={opt}>{opt}</option>
@@ -747,13 +675,13 @@ return (
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
+                          <label className="block text-[11px] font-semibold text-stone-600 uppercase mb-1">
                             {t.wizard.occupation}
                           </label>
                           <select
                             value={member.occupation}
                             onChange={(e) => handleMemberChange(member.id, 'occupation', e.target.value)}
-                            className="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium"
+                            className="w-full px-2.5 py-2 bg-white border border-[#DCD2C0] rounded-md text-xs font-medium text-[#162A45]"
                           >
                             {t.wizard.occupationOptions.map((opt: string) => (
                               <option key={opt} value={opt}>{opt}</option>
@@ -771,48 +699,48 @@ return (
             {currentStep === 6 && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">{t.wizard.step6Title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-1">{t.wizard.step6Desc}</p>
+                  <h3 className="font-serif text-xl font-bold text-[#162A45]">{t.wizard.step6Title}</h3>
+                  <p className="text-xs sm:text-sm text-stone-600 mt-1">{t.wizard.step6Desc}</p>
                 </div>
 
-                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-6">
+                <div className="bg-[#FAF7F2] rounded-md p-6 border border-[#E5DFD5] space-y-6">
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-orange-800 bg-orange-100 px-3 py-1 rounded-md inline-block mb-3">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-[#7A2818] bg-[#F7EFE9] px-3 py-1 rounded border border-[#E8D2C5] inline-block mb-3">
                       1. Household & Living Conditions
                     </h4>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                       <div>
-                        <span className="text-slate-500 block">State / District:</span>
-                        <strong className="text-slate-900 font-bold">{formData.state}, {formData.district}</strong>
+                        <span className="text-stone-500 block">State / District:</span>
+                        <strong className="text-[#162A45] font-semibold">{formData.state}, {formData.district}</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">Pincode:</span>
-                        <strong className="text-slate-900 font-mono">{formData.pincode}</strong>
+                        <span className="text-stone-500 block">Pincode:</span>
+                        <strong className="text-[#162A45] font-mono">{formData.pincode}</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">House Construction:</span>
-                        <strong className="text-slate-900">{formData.wallMaterial.split(' ')[0]}</strong>
+                        <span className="text-stone-500 block">House Construction:</span>
+                        <strong className="text-[#162A45]">{formData.wallMaterial.split(' ')[0]}</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">Drinking Water:</span>
-                        <strong className="text-slate-900">{formData.drinkingWaterSource.split(' inside')[0]}</strong>
+                        <span className="text-stone-500 block">Drinking Water:</span>
+                        <strong className="text-[#162A45]">{formData.drinkingWaterSource.split(' inside')[0]}</strong>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-200">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-md inline-block mb-3">
+                  <div className="pt-4 border-t border-[#E5DFD5]">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-[#1E432E] bg-[#EBF4EE] px-3 py-1 rounded border border-[#C5DEC8] inline-block mb-3">
                       2. Family Members ({formData.members.length} Total)
                     </h4>
-                    <div className="divide-y divide-slate-200 bg-white rounded-xl border border-slate-200 overflow-hidden">
+                    <div className="divide-y divide-[#E5DFD5] bg-white rounded border border-[#E5DFD5] overflow-hidden">
                       {formData.members.map((m, i) => (
                         <div key={m.id} className="p-3 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono font-bold text-slate-500">#{i + 1}</span>
-                            <span className="font-bold text-slate-900">{m.fullName}</span>
-                            <span className="text-slate-500">({m.relationship}, {m.age} yrs, {m.gender})</span>
+                            <span className="font-mono font-bold text-stone-500">#{i + 1}</span>
+                            <span className="font-semibold text-[#162A45]">{m.fullName}</span>
+                            <span className="text-stone-500">({m.relationship}, {m.age} yrs, {m.gender})</span>
                           </div>
-                          <div className="text-slate-600 text-[11px]">
+                          <div className="text-stone-600 text-[11px]">
                             {m.educationLevel} &bull; {m.occupation}
                           </div>
                         </div>
@@ -820,8 +748,8 @@ return (
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5">
-                    <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="p-4 rounded-md bg-[#F2ECE1] border border-[#DCD2C0] text-xs text-stone-800 flex items-start gap-2.5">
+                    <ShieldCheck className="w-5 h-5 text-[#26533A] shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
                       <strong>Legal Self-Declaration:</strong> In Census 2027, you certify that all information submitted is accurate to the best of your knowledge under the provisions of the Census Act, 1948.
                     </p>
@@ -833,62 +761,56 @@ return (
             {/* STEP 7: Official Digital Acknowledgment Receipt */}
             {currentStep === 7 && (
               <div className="space-y-6 animate-in fade-in duration-200 text-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
-                  <CheckCircle2 className="w-10 h-10" />
+                <div className="w-14 h-14 rounded-full bg-[#EBF4EE] text-[#26533A] flex items-center justify-center mx-auto border border-[#C5DEC8]">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
 
-                <div className="max-w-xl mx-auto space-y-2">
-                  <h3 className="text-2xl font-extrabold text-slate-900">{t.wizard.step7Title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{t.wizard.step7Desc}</p>
+                <div className="max-w-xl mx-auto space-y-1">
+                  <h3 className="font-serif text-2xl font-bold text-[#162A45]">{t.wizard.step7Title}</h3>
+                  <p className="text-sm text-stone-600 leading-relaxed font-normal">{t.wizard.step7Desc}</p>
                 </div>
 
-                {/* Printable Slip Card */}
-                <div className="bg-slate-900 text-white rounded-3xl p-6 md:p-8 max-w-md mx-auto shadow-2xl border-4 border-slate-800 text-left space-y-5 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 right-0 h-1.5 grid grid-cols-3">
-                    <div className="bg-orange-500"></div>
-                    <div className="bg-white"></div>
-                    <div className="bg-emerald-500"></div>
-                  </div>
-
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                {/* Printable Slip Card (Official Gazette Certificate Style) */}
+                <div className="bg-[#162A45] text-white rounded-lg p-6 md:p-8 max-w-md mx-auto shadow-md border border-[#233854] text-left space-y-5 relative">
+                  <div className="flex items-center justify-between border-b border-[#233854] pb-4">
                     <div>
-                      <span className="text-[10px] text-orange-400 font-bold uppercase tracking-widest block">GOVERNMENT OF INDIA</span>
-                      <h4 className="text-base font-extrabold text-white">DIGITAL CENSUS 2027</h4>
-                      <p className="text-[10px] text-slate-400">Self-Enumeration Acknowledgment</p>
+                      <span className="text-[10px] text-[#E6C280] font-semibold tracking-wide block">GOVERNMENT OF INDIA</span>
+                      <h4 className="font-serif text-base font-bold text-white">DIGITAL CENSUS 2027</h4>
+                      <p className="text-[11px] text-stone-300">Self-Enumeration Acknowledgment</p>
                     </div>
-                    <div className="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center font-bold text-xs">
+                    <div className="w-9 h-9 rounded bg-[#B83A24] text-white flex items-center justify-center font-mono font-bold text-xs">
                       2027
                     </div>
                   </div>
 
-                  <div className="bg-white p-4 rounded-2xl flex flex-col items-center justify-center text-slate-900 shadow-inner">
-                    <QrCode className="w-32 h-32 text-slate-900" />
-                    <span className="text-[11px] font-mono font-bold tracking-widest text-slate-700 mt-2">
+                  <div className="bg-[#FAF7F2] p-4 rounded flex flex-col items-center justify-center text-stone-900 border border-[#E5DFD5]">
+                    <QrCode className="w-28 h-28 text-[#162A45]" />
+                    <span className="text-xs font-mono font-bold tracking-wider text-[#162A45] mt-2">
                       {referenceToken}
                     </span>
-                    <span className="text-[9px] text-slate-400 uppercase mt-0.5">SCAN FOR INSTANT ENUMERATION</span>
+                    <span className="text-[10px] text-stone-500 uppercase mt-0.5">SCAN FOR INSTANT DOORSTEP VERIFICATION</span>
                   </div>
 
                   <div className="space-y-2 text-xs">
-                    <div className="flex justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-400">Head of Household:</span>
-                      <span className="font-bold text-white">{formData.headName}</span>
+                    <div className="flex justify-between py-1 border-b border-[#233854]">
+                      <span className="text-stone-400">Head of Household:</span>
+                      <span className="font-semibold text-white">{formData.headName}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-400">Total Members:</span>
-                      <span className="font-bold text-emerald-400">{formData.members.length} Persons</span>
+                    <div className="flex justify-between py-1 border-b border-[#233854]">
+                      <span className="text-stone-400">Total Members:</span>
+                      <span className="font-semibold text-[#E6C280]">{formData.members.length} Persons</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-400">Location:</span>
-                      <span className="font-medium text-slate-200">{formData.district}, {formData.state}</span>
+                    <div className="flex justify-between py-1 border-b border-[#233854]">
+                      <span className="text-stone-400">Location:</span>
+                      <span className="text-stone-200">{formData.district}, {formData.state}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-400">Generated On:</span>
-                      <span className="font-mono text-slate-300 text-[11px]">{new Date().toLocaleDateString()}</span>
+                    <div className="flex justify-between py-1 border-b border-[#233854]">
+                      <span className="text-stone-400">Generated On:</span>
+                      <span className="font-mono text-stone-300 text-[11px]">{new Date().toLocaleDateString()}</span>
                     </div>
                   </div>
 
-                  <div className="bg-slate-800/80 rounded-xl p-3 text-[11px] text-slate-300 leading-snug">
+                  <div className="bg-[#233854] rounded p-3 text-[11px] text-stone-200 leading-snug">
                     <strong>Enumerator Visit Note:</strong> {t.wizard.showEnumeratorTip}
                   </div>
                 </div>
@@ -897,7 +819,7 @@ return (
                   <button
                     type="button"
                     onClick={() => window.print()}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-md bg-[#162A45] hover:bg-[#233854] text-white font-semibold text-xs shadow-xs transition-all cursor-pointer"
                   >
                     <Printer className="w-4 h-4" />
                     <span>{t.wizard.printReceipt}</span>
@@ -906,9 +828,9 @@ return (
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-sm transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#FAF7F2] border border-[#C5BBAA] hover:bg-[#F2ECE1] text-[#162A45] font-medium text-xs transition-all cursor-pointer"
                   >
-                    <RotateCcw className="w-4 h-4 text-orange-600" />
+                    <RotateCcw className="w-3.5 h-3.5 text-[#B83A24]" />
                     <span>{t.wizard.reset}</span>
                   </button>
                 </div>
@@ -919,15 +841,15 @@ return (
 
           {/* Navigation Controls Footer */}
           {currentStep < 7 && (
-            <div className="bg-slate-50 px-6 md:px-10 py-4 border-t border-slate-200 flex items-center justify-between">
+            <div className="bg-[#FAF7F2] px-6 md:px-10 py-4 border-t border-[#E5DFD5] flex items-center justify-between">
               <button
                 type="button"
                 onClick={handlePrev}
                 disabled={currentStep === 1}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-all ${
                   currentStep === 1 
-                    ? 'opacity-40 cursor-not-allowed text-slate-400' 
-                    : 'text-slate-700 hover:bg-slate-200 cursor-pointer'
+                    ? 'opacity-40 cursor-not-allowed text-stone-400' 
+                    : 'text-stone-700 hover:bg-[#F2ECE1] cursor-pointer'
                 }`}
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -939,7 +861,7 @@ return (
                   <button
                     type="button"
                     onClick={handleSubmit}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md hover:shadow-emerald-500/25 transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-md bg-[#26533A] hover:bg-[#1E432E] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
                   >
                     <Check className="w-4 h-4" />
                     <span>{t.wizard.submit}</span>
@@ -948,7 +870,7 @@ return (
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-md hover:shadow-orange-500/25 transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-md bg-[#B83A24] hover:bg-[#9C2F1C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all cursor-pointer"
                   >
                     <span>{t.wizard.next}</span>
                     <ArrowRight className="w-4 h-4" />

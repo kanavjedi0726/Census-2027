@@ -63,52 +63,55 @@ export interface CensusMember {
   id: string;
   fullName: string;
   relationship: string;
-  gender: 'Male' | 'Female' | 'Transgender' | '';
-  age: string;
+  gender: 'Male' | 'Female' | 'Transgender' | string;
+  age: string | number;
   maritalStatus: string;
-  religion: string;
-  casteCategory: string;
+  religion?: string;
+  casteCategory?: string;
   motherTongue: string;
-  otherLanguages: string;
-  literacyStatus: string;
+  otherLanguages?: string;
+  literacy?: string;
+  literacyStatus?: string;
   educationLevel: string;
   occupation: string;
-  workStatus: string;
-  disability: string;
+  workStatus?: string;
+  disability?: string;
 }
 
 export interface SimulationFormData {
   state: string;
   district: string;
-  subDistrict: string;
-  villageTown: string;
-  wardOrBlock: string;
+  subDistrict?: string;
+  villageTown?: string;
+  wardOrBlock?: string;
   pincode: string;
   mobileNumber: string;
+  otp?: string;
   otpVerified: boolean;
 
-  buildingNumber: string;
-  censusHouseNumber: string;
+  buildingNumber?: string;
+  censusHouseNumber?: string;
   houseUse: string;
   wallMaterial: string;
-  roofMaterial: string;
-  floorMaterial: string;
-  ownershipStatus: string;
-  dwellingRooms: string;
+  roofMaterial?: string;
+  floorMaterial?: string;
+  ownershipStatus?: string;
+  dwellingRooms?: string;
   drinkingWaterSource: string;
-  waterAvailability: string;
-  lightingSource: string;
+  waterAvailability?: string;
+  lightingSource?: string;
   latrineFacility: string;
-  drainageSystem: string;
+  drainageSystem?: string;
   cookingFuel: string;
   assetsOwned: string[];
 
   headName: string;
-  totalMembers: number;
+  totalMembers?: number;
+  totalRegularMembers?: number;
   members: CensusMember[];
 
-  migrationReason: string;
-  lastResidence: string;
+  migrationReason?: string;
+  lastResidence?: string;
   simulatedSubmittedAt?: string;
   referenceToken?: string;
 }

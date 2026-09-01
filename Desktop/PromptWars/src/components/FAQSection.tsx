@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { HelpCircle, ChevronDown, ChevronUp, PhoneCall, Mail, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ChevronDown, ChevronUp, PhoneCall, ExternalLink } from 'lucide-react';
 
 export const FAQSection: React.FC = () => {
   const { t } = useLanguage();
@@ -26,52 +26,48 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-16 md:py-24 bg-slate-50 border-b border-slate-200">
+    <section id="faq" className="py-16 md:py-20 bg-[#FAF7F2] border-b border-[#E5DFD5]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Section Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold uppercase tracking-wider">
-            <HelpCircle className="w-3.5 h-3.5 text-orange-600" />
-            Citizen Help Desk
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#162A45] tracking-tight">
             {t.faq.title}
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg">
+          <p className="text-stone-600 text-base sm:text-lg font-normal">
             {t.faq.subtitle}
           </p>
         </div>
 
         {/* Accordion List */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden transition-all"
+                className="bg-[#FDFBF7] rounded-lg border border-[#E5DFD5] shadow-xs overflow-hidden transition-all"
               >
                 <button
                   type="button"
                   onClick={() => toggleAccordion(idx)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-slate-900 text-sm sm:text-base hover:bg-slate-50 transition-colors cursor-pointer"
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-[#162A45] text-sm sm:text-base hover:bg-[#FAF7F2] transition-colors cursor-pointer"
                 >
                   <span className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 text-xs font-mono flex items-center justify-center shrink-0">
+                    <span className="w-6 h-6 rounded bg-[#F2ECE1] text-[#162A45] text-xs font-mono font-bold flex items-center justify-center shrink-0">
                       {idx + 1}
                     </span>
                     <span>{faq.q}</span>
                   </span>
                   {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-orange-600 shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-[#B83A24] shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-stone-400 shrink-0" />
                   )}
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
+                  <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-[#E5DFD5] bg-[#FAF7F2]">
                     <p>{faq.a}</p>
                   </div>
                 )}
@@ -81,22 +77,22 @@ export const FAQSection: React.FC = () => {
         </div>
 
         {/* Helpline Banner */}
-        <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl border border-slate-800">
+        <div className="bg-[#162A45] text-white rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm border border-[#233854]">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-orange-600/20 border border-orange-500/30 text-orange-400 flex items-center justify-center shrink-0">
-              <PhoneCall className="w-7 h-7" />
+            <div className="w-12 h-12 rounded-lg bg-[#233854] border border-[#354D6E] text-[#E6C280] flex items-center justify-center shrink-0">
+              <PhoneCall className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-lg font-bold text-white">Need Official Assistance?</h4>
-              <p className="text-xs text-slate-400">Available 8:00 AM – 8:00 PM (All 7 Days) in 16 languages</p>
-              <p className="text-base font-mono font-bold text-amber-400 mt-1">1800-180-2027 (Toll-Free)</p>
+              <h4 className="font-serif text-lg font-bold text-white">Need Official Assistance?</h4>
+              <p className="text-xs text-stone-300">Available 8:00 AM ? 8:00 PM (All 7 Days) in 16 languages</p>
+              <p className="text-base font-mono font-bold text-[#E6C280] mt-1">1800-180-2027 (Toll-Free)</p>
             </div>
           </div>
           <a
             href="https://censusindia.gov.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold border border-slate-700 transition-colors shrink-0"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#233854] hover:bg-[#2C4669] text-white text-xs font-semibold border border-[#354D6E] transition-colors shrink-0"
           >
             <span>Visit Census Official Portal</span>
             <ExternalLink className="w-4 h-4" />
