@@ -116,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, activeSection }) => 
                   onMouseLeave={() => setLangDropdownOpen(false)}
                 >
                   <div className="px-3 py-1.5 text-xs font-semibold text-stone-500 border-b border-[#E8E0D2]">
-                    Select Language / ???? ?????
+                    Select Language / भाषा चुनें
                   </div>
                   {supportedLanguages.map((lang) => (
                     <button

@@ -43,7 +43,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const countPopulation = useCountUp(140, 1400);
   const countHLO = useCountUp(31, 1100);
   const countPE = useCountUp(28, 1100);
-  const countLanguages = useCountUp(16, 1200);
+  const countLanguages = useCountUp(6, 1200);
 
   return (
     <section id="hero" className="relative overflow-hidden bg-[#FAF7F2] border-b border-[#E5DFD5] py-14 md:py-20">

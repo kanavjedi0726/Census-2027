@@ -17,7 +17,7 @@ export const FAQSection: React.FC = () => {
     },
     {
       q: 'What language options are supported in the digital self-enumeration portal?',
-      a: 'The self-enumeration portal and mobile application support 16 major Indian languages, including Hindi, English, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Odia, Punjabi, Assamese, and others.'
+      a: 'The self-enumeration portal and mobile application support 6 major Indian languages: English, Hindi, Tamil, Bengali, Telugu, and Marathi.'
     }
   ];
 
@@ -86,7 +86,7 @@ export const FAQSection: React.FC = () => {
             </div>
             <div>
               <h4 className="font-serif text-lg font-bold text-white">Need Official Assistance?</h4>
-              <p className="text-xs text-stone-300">Available 8:00 AM ? 8:00 PM (All 7 Days) in 16 languages</p>
+              <p className="text-xs text-stone-300">Available 8:00 AM &ndash; 8:00 PM (All 7 Days) in 6 languages</p>
               <p className="text-base font-mono font-bold text-[#E6C280] mt-1">1800-180-2027 (Toll-Free)</p>
             </div>
           </div>

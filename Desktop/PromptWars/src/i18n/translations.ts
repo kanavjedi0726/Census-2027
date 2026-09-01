@@ -27,7 +27,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
@@ -307,7 +307,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
@@ -587,7 +587,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
@@ -867,7 +867,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
@@ -1147,7 +1147,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
@@ -1427,7 +1427,7 @@ export const translations: Record<Language, any> = {
       "stat2Sub": "Citizens Enumerated Digitally",
       "stat3": "31 + 28",
       "stat3Sub": "Key Census Indicators",
-      "stat4": "16 Languages",
+      "stat4": "6 Languages",
       "stat4Sub": "Portal & Mobile App Support"
     },
     "phases": {
